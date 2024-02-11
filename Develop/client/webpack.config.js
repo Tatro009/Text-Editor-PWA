@@ -11,15 +11,13 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-    main: './src/js/index.js',
-    install: './src/js/install.js'
+    main: '/Develop/client/src/js/index.js',
+    install: '/Develop/client/src/js/install.js'
   },
-
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
-
   module: {
     rules: [
       // Handle JavaScript files with Babel
@@ -41,27 +39,26 @@ module.exports = {
       },
     ],
   },
-
   plugins: [
     // Clean the 'dist' folder before each build
     new CleanWebpackPlugin(),
     
     // Generate HTML files
     new HtmlWebpackPlugin({
-      template: './client/index.html',
+      template: '/client/index.html',
       filename: 'index.html',
       chunks: ['main'],
     }),
     new HtmlWebpackPlugin({
-      template: './client/index.html',
+      template: '/client/install.html',
       filename: 'install.html',
       chunks: ['install'],
     }),
     
     // Add and configure Workbox plugins
     new InjectManifest({
-      swSrc: './client/src-sw.js', // Service worker source file
-      swDest: 'service-worker.js', // Service worker destination file
+      swSrc: '/Develop/client/src-sw.js', // Service worker source file
+      swDest: '/Develop/service-worker.js', // Service worker destination file
     }),
 
     new WebpackPwaManifest({
@@ -72,7 +69,7 @@ module.exports = {
       theme_color: '#2196f3',
       icons: [
         {
-          src: path.resolve('client/src/images/logo.png'),
+          src: path.resolve(__dirname, '/Develop/client/src/images/logo.png'),
           sizes: [96, 128, 192, 256, 384, 512], // multiple sizes for different devices
           destination: path.join('assets', 'icons'),
           ios: true,
