@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>J.A.T.E</title>
-    
+
+      <link rel="manifest" href="/manifest.json">
+      <link rel="stylesheet" href="/Develop/client/src/css/style.css">
       <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
       </link>
@@ -26,7 +28,7 @@
      <h1> Just Another Text Editor</h1>
      
       <div class="navbar-brand" 
-            ><img src="./assets/icons/icon_96x96.png"
+            ><img src="/Develop/client/src/images/logo.png"
           /></div>
     </nav>
 
@@ -36,5 +38,50 @@
       </div>
     </main>
     
+    <!-- Include main bundle JavaScript file -->
+    <script src="main.bundle.js"></script>
+    <!-- Include install bundle JavaScript file -->
+    <script src="install.bundle.js"></script>
+
+    <script>
+      const butInstall = document.getElementById('buttonInstall');
+      let deferredPrompt;
+
+      // Event handler for beforeinstallprompt event
+      window.addEventListener('beforeinstallprompt', (event) => {
+          console.log('beforeinstallprompt fired');
+          // Prevent Chrome 67 and earlier from automatically showing the prompt
+          event.preventDefault();
+          // Stash the event so it can be triggered later
+          deferredPrompt = event;
+          // Update UI to notify the user that the app can be installed
+          butInstall.style.display = 'block';
+      });
+
+      // Event handler for the click event on the install button
+      butInstall.addEventListener('click', async () => {
+          console.log('Install button clicked');
+          // Show the install prompt
+          deferredPrompt.prompt();
+          // Wait for the user to respond to the prompt
+          const choiceResult = await deferredPrompt.userChoice;
+          if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the install prompt');
+          } else {
+              console.log('User dismissed the install prompt');
+          }
+          // Reset the deferredPrompt variable
+          deferredPrompt = null;
+          // Hide the install button
+          butInstall.style.display = 'none';
+      });
+
+      // Event handler for the appinstalled event
+      window.addEventListener('appinstalled', (event) => {
+          console.log('App installed successfully');
+          // Hide the install button
+          butInstall.style.display = 'none';
+      });
+    </script>
   </body>
 </html>
