@@ -11,8 +11,8 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-    main: '/Develop/client/src/js/index.js',
-    install: '/Develop/client/src/js/install.js'
+    main: '/client/src/js/index.js',
+    install: '/client/src/js/install.js'
   },
   output: {
     filename: '[name].bundle.js',
@@ -57,8 +57,8 @@ module.exports = {
     
     // Add and configure Workbox plugins
     new InjectManifest({
-      swSrc: '/Develop/client/src-sw.js', // Service worker source file
-      swDest: '/Develop/service-worker.js', // Service worker destination file
+      swSrc: '/client/src-sw.js', // Service worker source file
+      swDest: '/client/service-worker.js', // Service worker destination file
     }),
 
     new WebpackPwaManifest({
